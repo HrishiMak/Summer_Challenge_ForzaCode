@@ -1,11 +1,14 @@
 from itertools import combinations
-
 import numpy as np
+import pandas as pd
 import torch
-
 import torch.nn as nn
+from PIL import Image
 import copy
+from sklearn import preprocessing
 from torch_lr_finder import LRFinder
+from torch.utils.data import Dataset
+from torch.utils.data.sampler import BatchSampler
 
 def pdist(vectors):
     '''
@@ -14,6 +17,56 @@ def pdist(vectors):
     distance_matrix = -2 * vectors.mm(torch.t(vectors)) + vectors.pow(2).sum(dim=1).view(1, -1) + vectors.pow(2).sum(
         dim=1).view(-1, 1)
     return distance_matrix
+
+class BalancedBatchSampler(BatchSampler):
+    """
+    BatchSampler - from a MNIST-like dataset, samples n_classes and within these classes samples n_samples.
+    Returns batches of size n_classes * n_samples
+
+    Args:
+        labels: tensor of labels for the dataset
+        n_classes: number of classes to sample in each batch
+        n_samples: number of samples per class to include in each batch.
+    """
+
+    def __init__(self, labels, n_classes, n_samples):
+        self.labels = labels
+        self.labels_set = list(set(self.labels.numpy()))
+        self.label_to_indices = {label: np.where(self.labels.numpy() == label)[0]
+                                 for label in self.labels_set}
+        for l in self.labels_set:
+            np.random.shuffle(self.label_to_indices[l])
+        self.used_label_indices_count = {label: 0 for label in self.labels_set}
+        self.count = 0
+        self.n_classes = n_classes
+        self.n_samples = n_samples
+        self.n_dataset = len(self.labels)
+        self.batch_size = self.n_samples * self.n_classes
+
+    def __iter__(self):
+        '''
+        Implemented to generate batches.
+        '''
+        self.count = 0
+        while self.count + self.batch_size < self.n_dataset:
+            classes = np.random.choice(self.labels_set, self.n_classes, replace=False)
+            indices = []
+            for class_ in classes:
+                indices.extend(self.label_to_indices[class_][
+                               self.used_label_indices_count[class_]:self.used_label_indices_count[
+                                                                         class_] + self.n_samples])
+                self.used_label_indices_count[class_] += self.n_samples
+                if self.used_label_indices_count[class_] + self.n_samples > len(self.label_to_indices[class_]):
+                    np.random.shuffle(self.label_to_indices[class_])
+                    self.used_label_indices_count[class_] = 0
+            yield indices
+            self.count += self.n_classes * self.n_samples
+
+    def __len__(self):
+        '''
+        Returns the number of batches that can be generated using this sampler.
+        '''
+        return self.n_dataset // self.batch_size
 
 
 class PairSelector:
