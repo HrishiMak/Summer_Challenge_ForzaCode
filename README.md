@@ -29,9 +29,9 @@ To run the code, you will need to provide the paths to the following files:
 ### Checkpoints
 
 * The path to the checkpoint for the siamese network:
-        ``path_to_checkpoint1: "siamese_model"``
+        ``path_to_checkpoint1: "model_checkpoint1"``
 * The path to the checkpoint for the classification network:
-        ``path_to_checkpoint2: "classification_model-0.9272"``
+        ``path_to_checkpoint2: "model_checkpoint2"``
 
 ### Data
 
