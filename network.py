@@ -4,6 +4,27 @@ import torch
 import torch.nn as nn
 from einops import repeat
 
+class ClassificationNet(nn.Module):
+    '''
+    Defines a neural network for classification with three fully connected layers
+
+    Args:
+        input_size: Size of input features
+    '''
+    def _init_(self,input_size):
+        super()._init_()
+        self.input_size=input_size
+        self.fc1=nn.Sequential(nn.Linear(input_size,16),
+                               nn.LeakyReLU(),
+                               nn.Linear(16,8),
+                               nn.LeakyReLU(),
+                               nn.Linear(8,1))
+        self.sigmoid=nn.Sigmoid()
+
+    def forward(self,x):
+        out=self.fc1(x)
+        return self.sigmoid(out)
+      
 class SiameseNet(nn.Module):
   '''
   Implements the Siamese Network architecture.
