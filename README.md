@@ -38,11 +38,11 @@ To run the code, you will need to provide the paths to the following files:
 * The path to the test CSV file:
      ``path_to_test_csv: "test.csv"``
 * The path to the directory containing the test images:
-     ``path_to_test_imgdir: r"C:\Users\91934\Downloads\semi_test\semi_test"``
+     ``path_to_test_imgdir: ${path_to_test_imgdir}``
 
 Once you have provided these paths, you can run the code as follows:
  ```sh
-      python inference.py
+      python inference.py --path_to_checkpoint1 ${path_to_checkpoint1} --path_to_checkpoint2 ${path_to_checkpoint2} --path_to_test_csv ${path_to_test_csv} --path_to_test_imgdir                   ${path_to_test_imgdir}
    ```
 This will run the inference stage and save the submission file to the current directory.
 
@@ -51,6 +51,4 @@ This will run the inference stage and save the submission file to the current di
 The submission file will be a CSV file with two columns:
 
 * `id`: The ID of the test pair
-* `proba`: The probability that the two images in the test pair were written by the same person
-
-You can submit this file to the Kaggle competition to see how your model performs.
+* `proba`: The probability that the two images in the test pair were written by the same person.
