@@ -1,9 +1,10 @@
 #import libraries 
 import os
+import numpy as np
 from torchvision import transforms
 from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader, Dataset
-from dataset import BalancedBatchSampler
+from utils import BalancedBatchSampler
 import torch
 from sklearn import preprocessing
 from skimage import io
@@ -168,6 +169,80 @@ class TestDataset(Dataset):
     
     def __len__(self):
         return len(self.test_df.index)
+    
+class valDataset_emb(Dataset):
+
+    """
+    A class to represent the validation dataset.
+
+    Args:
+        embeddings_1 (np.array): The first set of embeddings.
+        embeddings_2 (np.array): The second set of embeddings.
+        label (np.array): The labels for the embeddings.
+    """
+
+    def __init__(self, embeddings_1,embeddings_2,label):
+        self.embeddings_1=np.array(embeddings_1)
+        self.embeddings_2=np.array(embeddings_2)
+        self.labels=label
+    
+    def __getitem__(self, index):
+
+        """
+        Returns a tuple of the distances between the embeddings and the label for the given index.
+
+        Args:
+            index (int): The index of the data point to return.
+
+        Returns:
+            tuple: A tuple of the distances between the embeddings and the label.
+        """
+
+        em1=torch.tensor(self.embeddings_1[index])
+        em2=torch.tensor(self.embeddings_2[index])
+        label = torch.tensor(self.labels[index])
+        #print(label.shape)
+        distances=(em1-em2).pow(2)
+        return distances,label
+    
+    def __len__(self):
+        return len(self.labels)
+    
+
+class CustomDataset_emb(Dataset):
+
+    """
+    A class to represent a custom dataset of embeddings and labels.
+
+    Args:
+        embeddings (np.array): The embeddings of the data points.
+        labels (list): The labels of the data points.
+    """
+
+    def __init__(self, embeddings, labels):    
+        self.embeddings = np.array(embeddings)
+        self.labels = labels
+
+    def __getitem__(self, index):
+
+        """
+        Returns a tuple of the embedding and label for the given index.
+
+        Args:
+            index (int): The index of the data point to return.
+
+        Returns:
+            tuple: A tuple of the embedding and label.
+        """
+
+        label = torch.tensor(self.labels[index])
+        embedding = torch.tensor(self.embeddings[index])
+
+        return embedding, label
+
+
+    def __len__(self):
+        return len(self.labels)
 
 if __name__=="__main__":
     label_paths=pd.read_csv("./dataset/val.csv")
