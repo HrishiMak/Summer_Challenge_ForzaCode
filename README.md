@@ -29,4 +29,27 @@ To run the code, you will need to provide the paths to the following files:
 ### Checkpoints
 
 * The path to the checkpoint for the siamese network:
-        path_to_checkpoint1: "siamese_model"
+        ``path_to_checkpoint1: "siamese_model"``
+* The path to the checkpoint for the classification network:
+        ``path_to_checkpoint2: "classification_model-0.9272"``
+
+### Data
+
+* The path to the test CSV file:
+     ``path_to_test_csv: "test.csv"``
+* The path to the directory containing the test images:
+     ``path_to_test_imgdir: r"C:\Users\91934\Downloads\semi_test\semi_test"``
+
+Once you have provided these paths, you can run the code as follows:
+python inference.py
+
+This will run the inference stage and save the submission file to the current directory.
+
+## Submission File
+
+The submission file will be a CSV file with two columns:
+
+* `id`: The ID of the test pair
+* `proba`: The probability that the two images in the test pair were written by the same person
+
+You can submit this file to the Kaggle competition to see how your model performs.
