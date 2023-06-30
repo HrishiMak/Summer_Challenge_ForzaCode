@@ -28,7 +28,7 @@ To run the code, you will need to provide the paths to the following files:
 
 ### Checkpoints
 * Drive Link to download checkpoints:
-  [https://drive.google.com/drive/folders/1In7ef3t2VFyhGWPoHVuoby9GBoJpQ6fL?usp=sharing](url)
+  [go](https://drive.google.com/drive/folders/1In7ef3t2VFyhGWPoHVuoby9GBoJpQ6fL?usp=sharing){:target="_blank" rel="noopener"}
 * The path to the checkpoint for the siamese network:
         ``path_to_checkpoint1: "model_checkpoint1"``
 * The path to the checkpoint for the classification network:
