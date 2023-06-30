@@ -42,8 +42,8 @@ To run the code, you will need to provide the paths to the following files:
 
 Once you have provided these paths, you can run the code as follows:
  ```sh
-      python inference.py --path_to_checkpoint1 ${path_to_checkpoint1} --path_to_checkpoint2 ${path_to_checkpoint2} --path_to_test_csv ${path_to_test_csv} --path_to_test_imgdir           ${path_to_test_imgdir}
-   ```
+      python inference.py --path_to_checkpoint1 ${path_to_checkpoint1} --path_to_checkpoint2 ${path_to_checkpoint2} --path_to_test_csv ${path_to_test_csv} --path_to_test_img ${path_to_test_imgdir}
+   ``` 
 This will run the inference stage and save the submission file to the current directory.
 
 ## Submission File
