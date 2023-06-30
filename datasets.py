@@ -133,7 +133,41 @@ class valDataset(Dataset):
         '''
         return len(self.labels)  
 
+class TestDataset(Dataset):
+    '''
+    A custom dataset class for loading validation image data.
 
+    Args:
+        path_to_csv: Path of the csv file
+        path_to_imgdir: Directory where the image files are stored 
+    '''
+    def __init__(self, path_to_csv,path_to_imgdir):
+        self.test_df=pd.read_csv(path_to_csv)
+        self.img1_names=self.test_df.img1_name.values
+        self.img2_names=self.test_df.img2_name.values
+        self.path_to_imgdir=path_to_imgdir
+        self.transform = transforms.Compose([
+                            transforms.Resize((28,280)),
+                            transforms.ToTensor(),
+                            transforms.Normalize((0.8686,),(0.1675,))
+                        ])
+    
+    def __getitem__(self, index):
+        img1_name=self.img1_names[index]
+        img2_name=self.img2_names[index]
+        #Read the images
+        img1=io.imread(os.path.join(self.path_to_imgdir,img1_name))
+        img2=io.imread(os.path.join(self.path_to_imgdir,img2_name))
+        img1 = im.fromarray(img1)
+        img2 = im.fromarray(img2)
+        #Apply the transform
+        img1=self.transform(img1)
+        img2=self.transform(img2)
+
+        return img1,img2
+    
+    def __len__(self):
+        return len(self.test_df.index)
 
 if __name__=="__main__":
     label_paths=pd.read_csv("./dataset/val.csv")
