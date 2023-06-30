@@ -26,57 +26,58 @@ class ClassificationNet(nn.Module):
         return self.sigmoid(out)
       
 class SiameseNet(nn.Module):
-  '''
-  Implements the Siamese Network architecture.
+    '''
+    Implements the Siamese Network architecture.
 
-  Args:
-      embedding_net: a separate neural network module that will be used to compute the embeddings for input samples.
-  '''
+    Args:
+        embedding_net: a separate neural network module that will be used to compute the embeddings for input samples.
+    '''
     def __init__(self, embedding_net):
         super(SiameseNet, self).__init__()
         self.embedding_net = embedding_net
-      
+
     def forward(self, x1, x2):
         '''
         Defines the forward pass of the SiameseNet. Takes two input samples, x1 and x2, and passes them through the embedding_net 
         to obtain their respective embeddings, output1 and output2. 
-      
+
         Args:
             x1, x2: Tensor representations of the respective images
-      
+
         Returns:
             output1, output2: Embeddings of the input tensors
         '''
         output1 = self.embedding_net(x1)
         output2 = self.embedding_net(x2)
         return output1, output2
-      
+
     def get_embedding(self, x):
         '''
         Convenience method that allows obtaining the embeddings for a single input sample.
-      
+
         Args:
             x: Input tensor
-      
+
         Returns:
             self.embedding_net(x): Embedding of input tensor
         '''
         return self.embedding_net(x)
 
-'''
-Checks the input to be a tuple or not and pairs into a tuple if not.
-'''
+
 def pair(t):
+    '''
+    Checks the input to be a tuple or not and pairs into a tuple if not.
+    '''
     return t if isinstance(t, tuple) else (t, t)
 
 class PreNorm(nn.Module):
-  '''
-  Performs pre-normalization on the input before applying a specified function to it.
+    '''
+    Performs pre-normalization on the input before applying a specified function to it.
 
-  Args:
-      dim (int): Size of the last dimension of the input tensor.
-      fn : function to be applied to the normalized input.
-  '''
+    Args:
+        dim (int): Size of the last dimension of the input tensor.
+        fn : function to be applied to the normalized input.
+    '''
     def __init__(self, dim, fn):
         super().__init__()
         self.norm = nn.LayerNorm(dim)
@@ -99,14 +100,14 @@ class PreNorm(nn.Module):
         return self.fn(x, **kwargs)
 
 class FeedForward(nn.Module):
-  '''
-  Implements a feed-forward network with two convolutional layers and GELU activation
+    '''
+    Implements a feed-forward network with two convolutional layers and GELU activation
 
-  Args:
-  dim(tuple): Input dimension
-  hidden_dim(tuple): Dimension of the hidden layer
-  dropout(float): Dropout probability with default value=0.
-  '''
+    Args:
+    dim(tuple): Input dimension
+    hidden_dim(tuple): Dimension of the hidden layer
+    dropout(float): Dropout probability with default value=0.
+    '''
     def __init__(self, dim, hidden_dim, dropout = 0.):
         super().__init__()
         self.net = nn.Sequential(
@@ -127,15 +128,15 @@ class FeedForward(nn.Module):
         return self.net(x)
 
 class Attention(nn.Module):
-  '''
-  Implements the self-attention mechanism commonly used in transformer-based models.
+    '''
+    Implements the self-attention mechanism commonly used in transformer-based models.
 
-  Args:
-      dim(int): Input dimension
-      heads(int): Number of attention heads with default value = 4
-      dim_heads(int): Dimension of each attention head
-      dropout(float): Dropout probability with default value = 0.
-  '''
+    Args:
+        dim(int): Input dimension
+        heads(int): Number of attention heads with default value = 4
+        dim_heads(int): Dimension of each attention head
+        dropout(float): Dropout probability with default value = 0.
+    '''
     def __init__(self, dim, heads = 4, dim_head = 32, dropout = 0.):
         super().__init__()
         inner_dim = dim_head *  heads  #total dimensionality of all the attention heads combined.
