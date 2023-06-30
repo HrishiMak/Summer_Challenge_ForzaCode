@@ -17,3 +17,16 @@ To get a local copy up and running follow these simple example steps.
    ```sh
    cd Summer-Challenge-on-Writer-Verification_TeamForzaCode
    ```
+3. Install the requirements:
+   ```sh
+   pip install -r requirements.txt
+   ```
+
+## Running the Code
+
+To run the code, you will need to provide the paths to the following files:
+
+### Checkpoints
+
+* The path to the checkpoint for the siamese network:
+        path_to_checkpoint1: "siamese_model"
