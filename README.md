@@ -41,8 +41,9 @@ To run the code, you will need to provide the paths to the following files:
      ``path_to_test_imgdir: r"C:\Users\91934\Downloads\semi_test\semi_test"``
 
 Once you have provided these paths, you can run the code as follows:
-python inference.py
-
+ ```sh
+      python inference.py
+   ```
 This will run the inference stage and save the submission file to the current directory.
 
 ## Submission File
