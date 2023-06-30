@@ -7,8 +7,8 @@ Pillow==9.2.0
 pyparsing==3.0.9
 scikit-image==0.21.0
 scikit-learn==1.2.2
-torch==2.0.0
-torch-lr-finder==0.2.1
-torchaudio==0.12.1
-torchvision==0.15.1
+torch
+torch-lr-finder
+torchaudio
+torchvision
 tqdm==4.64.1
