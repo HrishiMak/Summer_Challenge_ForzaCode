@@ -11,11 +11,11 @@ To get a local copy up and running follow these simple example steps.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/HrishiMak/Summer-Challenge-on-Writer-Verification_TeamForzaCode.git
+   git clone https://github.com/HrishiMak/Summer_Challenge_ForzaCode.git
    ```
 2. Enter current directory
    ```sh
-   cd Summer-Challenge-on-Writer-Verification_TeamForzaCode
+   cd Summer_Challenge_ForzaCode
    ```
 3. Install the requirements:
    ```sh
@@ -27,7 +27,8 @@ To get a local copy up and running follow these simple example steps.
 To run the code, you will need to provide the paths to the following files:
 
 ### Checkpoints
-
+* Drive Link to download checkpoints:
+  ``https://drive.google.com/drive/folders/1In7ef3t2VFyhGWPoHVuoby9GBoJpQ6fL?usp=sharing``
 * The path to the checkpoint for the siamese network:
         ``path_to_checkpoint1: "model_checkpoint1"``
 * The path to the checkpoint for the classification network:
